@@ -1,0 +1,3 @@
+Target Frequency: 250GHz
+Bandwidth: TBD
+Standard: 5G NR Evolution
