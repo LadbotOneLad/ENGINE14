@@ -1,22 +1,23 @@
 from __future__ import annotations
 
-from sympy import simplify
 from sympy.logic.boolalg import Boolean
-
 from engine14.sympy.constraints.invariants import invariant_constraints
 
 
 def evaluate_invariants() -> dict:
-    """
-    Evaluate and simplify the ENGINE14 invariant set.
+    expr = invariant_constraints()
 
-    Returns a plain dict so orchestration / XYO layers
-    can consume it without depending on SymPy types.
-    """
-    expr: Boolean = invariant_constraints()
-    simplified = simplify(expr)
+    # If the invariant is already a SymPy Boolean, convert directly.
+    if isinstance(expr, Boolean):
+        simplified_bool = bool(expr)
+        return {
+            "expression": str(expr),
+            "simplified": simplified_bool,
+        }
 
+    # If it's not a Boolean (rare), fall back to string conversion.
     return {
         "expression": str(expr),
-        "simplified": str(simplified),
+        "simplified": bool(expr),
     }
+
